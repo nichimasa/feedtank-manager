@@ -13,20 +13,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
-      
-      - name: Debug directory structure
-        run: |
-          pwd
-          ls -la
-          ls -la public || echo "No public directory"
-          cat firebase.json || echo "No firebase.json file"
+          node-version: 20  # ここを16から20に変更
       
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
       
-      - name: Firebase debug info
-        run: firebase --version
-      
-      - name: Deploy to Firebase with verbose logging
-        run: firebase deploy --token ${{ secrets.FIREBASE_TOKEN }} --debug --non-interactive
+      - name: Deploy to Firebase
+        run: firebase deploy --token ${{ secrets.FIREBASE_TOKEN }} --non-interactive
