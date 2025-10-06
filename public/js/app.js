@@ -97,24 +97,37 @@ function showSuccess(message) {
 
 // タンクマスターのセットアップ (初回実行時)
 async function setupTankMaster() {
-    const batch = db.batch();
-    
-    // 既存のタンクマスターを取得
-    const snapshot = await db.collection('tanks').get();
-    if (snapshot.size === 0) {
-        // タンクマスターが存在しない場合、初期データを作成
-        TANKS.forEach(tank => {
-            const tankRef = db.collection('tanks').doc(tank.id);
-            batch.set(tankRef, {
-                id: tank.id,
-                capacity: tank.capacity,
-                defaultFeedType: tank.defaultFeedType,
-                currentFeedType: tank.defaultFeedType,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-        });
+    try {
+        console.log("Setting up tank master data...");
+        const batch = db.batch();
         
-        await batch.commit();
-        console.log('Tank master data initialized');
+        // 既存のタンクマスターを取得
+        const snapshot = await db.collection('tanks').get();
+        if (snapshot.size === 0) {
+            console.log("No tanks found, creating initial data...");
+            // タンクマスターが存在しない場合、初期データを作成
+            TANKS.forEach(tank => {
+                const tankRef = db.collection('tanks').doc(tank.id);
+                batch.set(tankRef, {
+                    id: tank.id,
+                    capacity: tank.capacity,
+                    defaultFeedType: tank.defaultFeedType,
+                    currentFeedType: tank.defaultFeedType,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            });
+            
+            await batch.commit();
+            console.log('Tank master data initialized');
+            
+            // 画面をリロードして新しいデータを表示
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } else {
+            console.log(`Found ${snapshot.size} existing tanks.`);
+        }
+    } catch (error) {
+        console.error("Error in setupTankMaster:", error);
     }
 }
