@@ -1,3 +1,6 @@
+// ブラウザ互換性対応
+"use strict";
+
 // Firebase設定
 const firebaseConfig = {
     // ここにFirebaseコンソールからコピーした設定情報を貼り付けます
