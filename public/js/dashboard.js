@@ -1,9 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
+    console.log("Dashboard page loaded");
+    
     // 現在の日付をセット
     const today = new Date();
     const recordDateInput = document.getElementById('recordDate');
     if (recordDateInput) {
         recordDateInput.value = formatDate(today);
+        console.log("Set date input to:", formatDate(today));
     }
     
     // タンク一覧の表示
@@ -15,9 +18,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // 残量記録ボタンの処理
     const recordTodayBtn = document.getElementById('recordTodayBtn');
     if (recordTodayBtn) {
+        console.log("Found record button, adding event listener");
         recordTodayBtn.addEventListener('click', function() {
-            window.location.href = 'tank-mass-input.html?date=' + recordDateInput.value;
+            const date = recordDateInput ? recordDateInput.value : formatDate(today);
+            console.log("Record button clicked, redirecting with date:", date);
+            // 仮の対応として、まずはボタンが機能することを確認するためのアラート
+            alert('記録ページへ移動します');
+            window.location.href = 'tank-detail.html?id=A15&date=' + date;
         });
+    } else {
+        console.error("Record button not found");
     }
 });
 
