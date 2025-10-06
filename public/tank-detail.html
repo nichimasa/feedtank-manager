@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>タンク詳細 - 養豚場餌タンク残量管理システム</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">養豚場餌タンク残量管理</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">ダッシュボード</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <span id="userName">ユーザー</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" id="logoutBtn">ログアウト</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <a href="dashboard.html" class="btn btn-outline-secondary mb-3">
+                    <i class="bi bi-arrow-left"></i> ダッシュボードに戻る
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h2 id="tankTitle">タンク詳細</h2>
+                        <div class="tank-info">
+                            <span id="tankCapacity"></span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">現在の餌種類</label>
+                                    <select id="currentFeedType" class="form-select">
+                                        <option value="growth">育成期</option>
+                                        <option value="pregnancy">妊娠期</option>
+                                        <option value="milk">ミルク</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <h5>平均消費量（7日間）</h5>
+                                        <h3 id="avgConsumption">-</h3>
+                                        <div id="emptyForecast"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 残量入力フォーム -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5>残量記録</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="remainingForm">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label for="recordDate" class="form-label">記録日</label>
+                                                <input type="date" class="form-control" id="recordDate" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label for="remainingAmount" class="form-label">残量 (トン)</label>
+                                                <select class="form-select" id="remainingAmount" required>
+                                                    <option value="">選択してください</option>
+                                                    <!-- 0.5トン単位のオプションが動的に生成されます -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="mb-3">
+                                                <label for="incomingAmount" class="form-label">入荷量 (トン)</label>
+                                                <select class="form-select" id="incomingAmount">
+                                                    <option value="0">0.0</option>
+                                                    <!-- 0.5トン単位のオプションが動的に生成されます -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">記録する</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- グラフ表示 -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5>残量・消費量推移</h5>
+                                    <div class="btn-group" role="group">
+                                        <input type="radio" class="btn-check" name="period" id="daily" checked>
+                                        <label class="btn btn-outline-primary" for="daily">日次</label>
+                                        
+                                        <input type="radio" class="btn-check" name="period" id="weekly">
+                                        <label class="btn btn-outline-primary" for="weekly">週次</label>
+                                        
+                                        <input type="radio" class="btn-check" name="period" id="monthly">
+                                        <label class="btn btn-outline-primary" for="monthly">月次</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="tankChart" height="300"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- 記録履歴 -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>記録履歴</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>日付</th>
+                                                <th>餌種類</th>
+                                                <th>残量 (t)</th>
+                                                <th>入荷量 (t)</th>
+                                                <th>消費量 (t)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="recordsTable">
+                                            <!-- ここに記録が動的に追加されます -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Bootstrap & Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script src="js/app.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/tankDetail.js"></script>
+</body>
+</html>
