@@ -7,6 +7,20 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
+<!-- デバッグ情報表示 -->
+<script>
+  console.log("==== DEBUG INFO ====");
+  console.log("User Agent:", navigator.userAgent);
+  console.log("Firebase loaded:", typeof firebase !== 'undefined');
+  console.log("Current page:", window.location.pathname);
+  
+  // エラートラッキング
+  window.addEventListener('error', function(e) {
+    console.error('Global error:', e.message, 'at', e.filename, 'line', e.lineno);
+  });
+</script>    
+    
 <body class="login-page">
     <div class="container">
         <div class="login-container">
