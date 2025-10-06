@@ -1,0 +1,20 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "dailyRecords",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "tankId", "order": "ASCENDING" },
+        { "fieldPath": "date", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "dailyRecords",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "date", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
