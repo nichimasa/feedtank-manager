@@ -13,10 +13,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20  # ここを16から20に変更
+          node-version: 20
       
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
       
       - name: Deploy to Firebase
-        run: firebase deploy --token ${{ secrets.FIREBASE_TOKEN }} --non-interactive
+        run: firebase deploy --token ${{ secrets.FIREBASE_TOKEN }} --project feedtank-manager --non-interactive
