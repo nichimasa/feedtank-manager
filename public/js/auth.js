@@ -12,13 +12,17 @@ firebase.auth().onAuthStateChanged(function(user) {
             userNameElement.textContent = user.displayName || user.email;
         }
         
+        // タンクマスターのセットアップ
+        setupTankMaster().then(() => {
+            console.log('Tank master setup completed');
+        }).catch(err => {
+            console.error('Error setting up tank master:', err);
+        });
+        
         // ログインページにいる場合はダッシュボードへリダイレクト
         if (currentPath.endsWith('index.html') || currentPath.endsWith('/')) {
             window.location.href = 'dashboard.html';
         }
-        
-        // タンクマスターのセットアップ
-        setupTankMaster();
         
     } else {
         // ログインしていない場合
