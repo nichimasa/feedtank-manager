@@ -1,0 +1,122 @@
+/* 全体のスタイル */
+body {
+    background-color: #f8f9fa;
+}
+
+/* ログインページのスタイル */
+.login-page {
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #4a7fff, #2651b8);
+}
+
+.login-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.btn-google {
+    background-color: white;
+    color: #444;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-google:hover {
+    background-color: #f1f1f1;
+}
+
+/* ダッシュボードのスタイル */
+.tank-card {
+    transition: all 0.3s ease;
+}
+
+.tank-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* 餌種類のバッジスタイル */
+.feed-type {
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    color: white;
+}
+
+.feed-type.growth {
+    background-color: #4CAF50;
+}
+
+.feed-type.pregnancy {
+    background-color: #2196F3;
+}
+
+.feed-type.milk {
+    background-color: #FFC107;
+    color: #333;
+}
+
+/* タンク残量バーのスタイル */
+.progress {
+    height: 1.2rem;
+}
+
+.progress-bar {
+    transition: width 0.5s ease-in-out;
+}
+
+/* タンク詳細ページのスタイル */
+.records-table th {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 10;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    .card-header {
+        padding: 0.75rem;
+    }
+    
+    .table {
+        font-size: 0.9rem;
+    }
+}
+
+/* カスタムアニメーション */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.alert {
+    animation: pulse 2s infinite;
+}
+
+/* グラフのスタイル */
+canvas {
+    max-height: 400px;
+}
